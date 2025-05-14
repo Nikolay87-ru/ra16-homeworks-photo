@@ -15,3 +15,23 @@
   padding: 0;
   transition: background 0.3s ease;
 }
+
+.click-box {
+  position: relative;
+  width: 600px;
+  height: 400px;
+  border: 2px dashed #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.click-box__label {
+  font-size: 18px;
+  color: #666;
+}
+
+.click-box:hover {
+  border-color: #999;
+}
