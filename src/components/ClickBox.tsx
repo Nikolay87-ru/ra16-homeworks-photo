@@ -1,7 +1,6 @@
 import type { FC, ChangeEvent } from 'react';
 
 interface Props {
-  value: string;
   onSelect: (files: File[]) => void;
 }
 

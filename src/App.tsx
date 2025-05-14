@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import ClickBox from './components/ClickBox';
+import ImagePreview from './components/ImagePreview';
 import type { ImageType } from './types/ImageType';
 import './index.css';
 
@@ -36,11 +37,15 @@ const App: FC = () => {
     }
   };
 
+  const handleRemove = (id: number) => {
+    setImages((prev) => prev.filter((image) => image.id !== id));
+  };
 
   return (
     <div className="app">
       <div className="container">
         <ClickBox onSelect={handleSelect} />
+        <ImagePreview images={images} onRemove={handleRemove} />
       </div>
     </div>
   );
