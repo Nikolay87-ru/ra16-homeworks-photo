@@ -5,40 +5,31 @@ import ImagePreview from './components/ImagePreview';
 import type { ImageType } from './types/ImageType';
 import './index.css';
 
-const fileToDataUrl = (file: File): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const fileReader = new FileReader();
-
-    fileReader.addEventListener('load', (evt) => {
-      resolve(evt.currentTarget?.result as string);
-    });
-
-    fileReader.addEventListener('error', (evt) => {
-      reject(new Error('File reading error'));
-    });
-
-    fileReader.readAsDataURL(file);
-  });
-};
-
 const App: FC = () => {
   const [images, setImages] = useState<ImageType[]>([]);
+
+  const fileToDataUrl = (file: File): Promise<string> => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.readAsDataURL(file);
+    });
+  };
 
   const handleSelect = async (files: File[]) => {
     try {
       const urls = await Promise.all(files.map(fileToDataUrl));
-      const newImages = urls.map((url, index) => ({
-        id: Date.now() + index,
-        img: url,
-      }));
-      setImages((prev) => [...prev, ...newImages]);
+      setImages(prev => [
+        ...prev,
+        ...urls.map((img, i) => ({ id: Date.now() + i, img }))
+      ]);
     } catch (error) {
-      console.error('Error loading files:', error);
+      console.error('Error loading images:', error);
     }
   };
 
   const handleRemove = (id: number) => {
-    setImages((prev) => prev.filter((image) => image.id !== id));
+    setImages(prev => prev.filter(image => image.id !== id));
   };
 
   return (
